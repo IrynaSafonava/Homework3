@@ -1,13 +1,19 @@
 package by.it_academy.service;
 
 import by.it_academy.model.User;
-
+import by.it_academy.query.UserQueryExecutor;
+import java.sql.Connection;
 import java.util.Scanner;
 
-public class UserInputReader {
+public class UserService {
 
-    public static User createUser() {
-        User user = new User();
+    private final UserQueryExecutor userQueryExecutor;
+
+    public UserService(UserQueryExecutor userQueryExecutor) {
+        this.userQueryExecutor = userQueryExecutor;
+    }
+
+    public void inputUserReader(User user) {
         Scanner scanner = new Scanner(System.in);
         boolean valid = true;
         do {
@@ -23,6 +29,16 @@ public class UserInputReader {
                 }
             }
         } while (!valid);
+    }
+
+    public User saveUser(Connection connection) {
+        User user = new User();
+        inputUserReader(user);
+        try {
+            userQueryExecutor.addUserToDb(user, connection);
+        } catch (Exception e) {
+            System.out.println("Problem!");
+        }
         return user;
     }
 }

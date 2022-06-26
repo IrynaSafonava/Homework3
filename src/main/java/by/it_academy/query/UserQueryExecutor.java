@@ -6,25 +6,23 @@ import static java.lang.String.format;
 
 public class UserQueryExecutor {
 
-//    private static final String SQL_FIND_ALL_USERS = "SELECT * FROM users;";
-
-//    public static void printAllUsers(Connection connection) throws SQLException {
-//        PreparedStatement statement =
-//                connection.prepareStatement(SQL_FIND_ALL_USERS);
-//        ResultSet resultSet = statement.executeQuery();
-//        while (resultSet.next()) {
-//            System.out.println('\n' + "userId: " + resultSet.getInt("userId"));
-//            System.out.println("name: " + resultSet.getString("name"));
-//            System.out.println("address: " + resultSet.getString("address") + '\n');
-//        }
-//        resultSet.close();
-//        statement.close();
-//    }
-
-    public static void addUserToDb(User user, Connection connection) throws SQLException {
-        Statement statement = connection.createStatement();
-        statement.executeUpdate(format("INSERT INTO Users (name, address) VALUES('%s', '%s')",
-                user.getUserName(), user.getAddress()));
-        statement.close();
+    public void addUserToDb(User user, Connection connection) throws SQLException {
+        String sqlInsertUser = format("INSERT INTO Users (name, address) VALUES('%s', '%s')",
+                user.getUserName(), user.getAddress());
+        try (PreparedStatement statement = connection
+                .prepareStatement(sqlInsertUser, Statement.RETURN_GENERATED_KEYS)){
+            int affectedRows = statement.executeUpdate();
+            if (affectedRows == 0) {
+                throw new SQLException("Error occurred. No rows affected!");
+            }
+            try (ResultSet generatedKeys = statement.getGeneratedKeys()) {
+                if (generatedKeys.next()) {
+                    user.setUserId(generatedKeys.getInt(1));
+                    System.out.println("User successfully created with ID " + user.getUserId());
+                } else {
+                    throw new SQLException("Creating a user failed. No Id obtained");
+                }
+            }
+        }
     }
 }
