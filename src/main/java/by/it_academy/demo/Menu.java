@@ -1,12 +1,7 @@
 package by.it_academy.demo;
 
-import by.it_academy.model.Account;
-import by.it_academy.model.Transaction;
-import by.it_academy.model.User;
-import by.it_academy.service.AccountService;
-import by.it_academy.service.TransactionService;
-import by.it_academy.service.UserService;
-
+import by.it_academy.model.*;
+import by.it_academy.service.*;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.Scanner;
@@ -26,7 +21,6 @@ public class Menu {
         String actionCode;
         User user = new User();
         Account account = new Account();
-        Transaction transaction;
         do {
             printMenu();
             actionCode = new Scanner(System.in).nextLine();
@@ -39,12 +33,10 @@ public class Menu {
                     account = accountService.saveAccount(userId, connection);
                     break;
                 case '3':
-                    transaction = transactionService.saveTransaction(account, connection, 1);
-                    accountService.changeAccountBalance(transaction, connection);
+                    transactionService.saveTransaction(account, connection, 1);
                     break;
                 case '4':
-                    transaction = transactionService.saveTransaction(account, connection, -1);
-                    accountService.changeAccountBalance(transaction, connection);
+                    transactionService.saveTransaction(account, connection, -1);
                     break;
                 case '5':
                     System.out.println("Thanks for using the programme!");

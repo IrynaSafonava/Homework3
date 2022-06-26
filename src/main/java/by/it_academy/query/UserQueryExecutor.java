@@ -13,7 +13,7 @@ public class UserQueryExecutor {
                 .prepareStatement(sqlInsertUser, Statement.RETURN_GENERATED_KEYS)){
             int affectedRows = statement.executeUpdate();
             if (affectedRows == 0) {
-                throw new SQLException("Error occurred. No rows affected!");
+                throw new SQLException("Failure! No rows affected!");
             }
             try (ResultSet generatedKeys = statement.getGeneratedKeys()) {
                 if (generatedKeys.next()) {

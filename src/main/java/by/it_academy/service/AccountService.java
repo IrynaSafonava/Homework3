@@ -1,9 +1,9 @@
 package by.it_academy.service;
 
 import by.it_academy.model.Account;
-import by.it_academy.model.Transaction;
 import by.it_academy.query.AccountQueryExecutor;
 import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.Scanner;
 
 public class AccountService {
@@ -44,13 +44,5 @@ public class AccountService {
             System.out.println(e.getMessage());
         }
         return account;
-    }
-
-    public void changeAccountBalance(Transaction transaction, Connection connection){
-        try {
-            accountQueryExecutor.changeBalanceOfAccount(transaction, connection);
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-        }
     }
 }

@@ -1,12 +1,7 @@
 package by.it_academy.demo;
 
-import by.it_academy.query.AccountQueryExecutor;
-import by.it_academy.query.TransactionQueryExecutor;
-import by.it_academy.query.UserQueryExecutor;
-import by.it_academy.service.AccountService;
-import by.it_academy.service.TransactionService;
-import by.it_academy.service.UserService;
-
+import by.it_academy.query.*;
+import by.it_academy.service.*;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;

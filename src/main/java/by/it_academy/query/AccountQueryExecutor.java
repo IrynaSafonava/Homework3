@@ -1,10 +1,7 @@
 package by.it_academy.query;
 
 import by.it_academy.model.Account;
-import by.it_academy.model.Transaction;
-
 import java.sql.*;
-
 import static java.lang.String.format;
 
 public class AccountQueryExecutor {
@@ -14,9 +11,15 @@ public class AccountQueryExecutor {
         String sqlInsertAccount = format("INSERT INTO Accounts (userId, balance, currency) VALUES('%d', '%d', '%s')",
                 account.getUserId(), account.getBalance(), account.getCurrency());
 
-        try (PreparedStatement statement = connection
+        Statement statement = connection.createStatement();
+        ResultSet resultSet = statement.executeQuery(format("SELECT * FROM Users WHERE userId = '%d'",
+                account.getUserId()));
+        if(!resultSet.next()) {
+            throw new SQLException("Failure! No such userID found");
+        }
+        try (PreparedStatement preparedStatement = connection
                 .prepareStatement(sqlInsertAccount, Statement.RETURN_GENERATED_KEYS)) {
-            statement.executeUpdate();
+            preparedStatement.executeUpdate();
             try (ResultSet generatedKeys = statement.getGeneratedKeys()) {
                 if (generatedKeys.next()) {
                     account.setAccountId(generatedKeys.getInt(1));
@@ -26,14 +29,7 @@ public class AccountQueryExecutor {
                 }
             }
         }
-    }
-
-    public void changeBalanceOfAccount(Transaction transaction, Connection connection)
-            throws SQLException {
-        Statement statement = connection.createStatement();
-        statement.executeUpdate(format("UPDATE Accounts SET balance = " +
-                        "(SELECT balance FROM Accounts WHERE accountId = '%d') + ('%d') WHERE accountId = '%d'",
-                transaction.getAccountId(), transaction.getAmount(), transaction.getAccountId()));
+        resultSet.close();
         statement.close();
     }
 }

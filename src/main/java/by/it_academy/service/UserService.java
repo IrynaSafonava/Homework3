@@ -37,7 +37,7 @@ public class UserService {
         try {
             userQueryExecutor.addUserToDb(user, connection);
         } catch (Exception e) {
-            System.out.println("Problem!");
+            System.out.println(e.getMessage());
         }
         return user;
     }
