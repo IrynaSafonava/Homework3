@@ -3,7 +3,7 @@ package by.it_academy.model;
 public class Transaction {
     private int transactionId;
     private int accountId;
-    private int amount;
+    private double amount;
 
     public int getTransactionId() {
         return transactionId;
@@ -13,7 +13,7 @@ public class Transaction {
         return accountId;
     }
 
-    public int getAmount() {
+    public double getAmount() {
         return amount;
     }
 
@@ -25,7 +25,7 @@ public class Transaction {
         this.accountId = accountId;
     }
 
-    public void setAmount(int amount) {
+    public void setAmount(double amount) {
         this.amount = amount;
     }
 
@@ -47,14 +47,17 @@ public class Transaction {
 
         if (getTransactionId() != that.getTransactionId()) return false;
         if (getAccountId() != that.getAccountId()) return false;
-        return getAmount() == that.getAmount();
+        return Double.compare(that.getAmount(), getAmount()) == 0;
     }
 
     @Override
     public int hashCode() {
-        int result = getTransactionId();
+        int result;
+        long temp;
+        result = getTransactionId();
         result = 31 * result + getAccountId();
-        result = 31 * result + getAmount();
+        temp = Double.doubleToLongBits(getAmount());
+        result = 31 * result + (int) (temp ^ (temp >>> 32));
         return result;
     }
 }

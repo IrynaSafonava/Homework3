@@ -3,7 +3,7 @@ package by.it_academy.model;
 public class Account {
     private int accountId;
     private int userId;
-    private int balance;
+    private double balance;
     private String currency;
 
     public int getAccountId() {
@@ -22,7 +22,7 @@ public class Account {
         this.userId = userId;
     }
 
-    public int getBalance() {
+    public double getBalance() {
         return balance;
     }
 
@@ -63,9 +63,12 @@ public class Account {
 
     @Override
     public int hashCode() {
-        int result = getAccountId();
+        int result;
+        long temp;
+        result = getAccountId();
         result = 31 * result + getUserId();
-        result = 31 * result + getBalance();
+        temp = Double.doubleToLongBits(getBalance());
+        result = 31 * result + (int) (temp ^ (temp >>> 32));
         result = 31 * result + (getCurrency() != null ? getCurrency().hashCode() : 0);
         return result;
     }

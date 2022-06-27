@@ -3,7 +3,9 @@ package by.it_academy.service;
 import by.it_academy.model.Account;
 import by.it_academy.model.Transaction;
 import by.it_academy.query.TransactionQueryExecutor;
+
 import java.sql.Connection;
+import java.text.DecimalFormat;
 import java.util.Scanner;
 
 public class TransactionService {
@@ -21,19 +23,22 @@ public class TransactionService {
             try {
                 if (transaction.getAccountId() == 0) {
                     System.out.println("Enter account id: ");
-                    transaction.setAccountId(scanner.nextInt());
+                    transaction.setAccountId((int) scanner.nextDouble());
                 }
                 System.out.println("Enter amount: ");
-                int requestedAmount = scanner.nextInt();
+                DecimalFormat patternFormat = new DecimalFormat("0.000");
+                String result = patternFormat.format(scanner.nextDouble());
+                double requestedAmount = Double.parseDouble(result);
                 while (requestedAmount >= 100_000_000) {
                     System.out.println("Transaction cannot exceed 100m");
-                    requestedAmount = scanner.nextInt();
+                    result = patternFormat.format(scanner.nextDouble());
+                    requestedAmount = Double.parseDouble(result);
                 }
                 transaction.setAmount(requestedAmount * option);
             } catch (Exception e) {
                 System.out.println(e.getMessage());
-                if (scanner.hasNextInt()) {
-                    scanner.nextInt();
+                if (scanner.hasNextDouble()) {
+                    scanner.nextDouble();
                 }
             }
         } while (!valid);
@@ -47,7 +52,7 @@ public class TransactionService {
         try {
             transactionQueryExecutor.addTransactionToDb(transaction, connection);
         } catch (Exception e) {
-            System.out.println(e.getMessage());
+            System.out.println("Error occurred: " + e.getMessage());
         }
     }
 }

@@ -2,6 +2,7 @@ package by.it_academy.service;
 
 import by.it_academy.model.User;
 import by.it_academy.query.UserQueryExecutor;
+
 import java.sql.Connection;
 import java.util.Scanner;
 

@@ -2,8 +2,8 @@ package by.it_academy.service;
 
 import by.it_academy.model.Account;
 import by.it_academy.query.AccountQueryExecutor;
+
 import java.sql.Connection;
-import java.sql.SQLException;
 import java.util.Scanner;
 
 public class AccountService {
@@ -19,7 +19,7 @@ public class AccountService {
         boolean valid = true;
         do {
             try {
-                if(account.getUserId() == 0) {
+                if (account.getUserId() == 0) {
                     System.out.println("Enter user id: ");
                     account.setUserId(Integer.parseInt(scanner.nextLine()));
                 }
@@ -34,14 +34,14 @@ public class AccountService {
         } while (!valid);
     }
 
-    public Account saveAccount(int userId, Connection connection){
-    Account account = new Account();
-    account.setUserId(userId);
-    accountInputReader(account);
+    public Account saveAccount(int userId, Connection connection) {
+        Account account = new Account();
+        account.setUserId(userId);
+        accountInputReader(account);
         try {
             accountQueryExecutor.addAccountForUserToDb(account, connection);
         } catch (Exception e) {
-            System.out.println(e.getMessage());
+            System.out.println("Error occurred: " + e.getMessage());
         }
         return account;
     }

@@ -2,6 +2,7 @@ package by.it_academy.demo;
 
 import by.it_academy.query.*;
 import by.it_academy.service.*;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -9,7 +10,7 @@ import java.sql.SQLException;
 public class Runner {
     private static final String JDBC_DRIVER_PATH = "org.sqlite.JDBC";
     private static final String DATABASE_URL =
-            "jdbc:sqlite:c:\\Users\\Iryna\\db\\mytest.db";
+            "jdbc:sqlite:c:\\Users\\Iryna\\db\\myTest.db";
 
     public static void main(String[] args) throws SQLException {
 
@@ -20,7 +21,7 @@ public class Runner {
         TransactionQueryExecutor transactionQueryExecutor = new TransactionQueryExecutor();
         TransactionService transactionService = new TransactionService(transactionQueryExecutor);
 
-        Menu menu = new Menu(userService, accountService, transactionService );
+        Menu menu = new Menu();
 
         if (isDriverExists()) {
             Connection connection = DriverManager.getConnection(DATABASE_URL);

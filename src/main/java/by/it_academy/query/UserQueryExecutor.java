@@ -1,7 +1,9 @@
 package by.it_academy.query;
 
 import by.it_academy.model.*;
+
 import java.sql.*;
+
 import static java.lang.String.format;
 
 public class UserQueryExecutor {
@@ -10,7 +12,7 @@ public class UserQueryExecutor {
         String sqlInsertUser = format("INSERT INTO Users (name, address) VALUES('%s', '%s')",
                 user.getUserName(), user.getAddress());
         try (PreparedStatement statement = connection
-                .prepareStatement(sqlInsertUser, Statement.RETURN_GENERATED_KEYS)){
+                .prepareStatement(sqlInsertUser, Statement.RETURN_GENERATED_KEYS)) {
             int affectedRows = statement.executeUpdate();
             if (affectedRows == 0) {
                 throw new SQLException("Failure! No rows affected!");

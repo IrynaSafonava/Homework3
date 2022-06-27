@@ -2,19 +2,12 @@ package by.it_academy.demo;
 
 import by.it_academy.model.*;
 import by.it_academy.service.*;
+
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.Scanner;
 
 public class Menu {
-
-    private UserService userService;
-    private AccountService accountService;
-
-    public Menu(UserService userService, AccountService accountService, TransactionService transactionService) {
-        this.userService = userService;
-        this.accountService = accountService;
-    }
 
     public void executeProgramme(UserService userService, AccountService accountService,
                                  TransactionService transactionService, Connection connection) throws SQLException {
