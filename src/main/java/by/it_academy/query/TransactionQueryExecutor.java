@@ -11,6 +11,8 @@ import static java.lang.String.format;
 
 public class TransactionQueryExecutor {
 
+    private static final int MAX_VALUE_ON_ACCOUNT = 2_000_000_000;
+
     public void addTransactionToDb(Transaction transaction, Connection connection) throws SQLException {
 
         String sqlSelectAccountBalance = format("SELECT * FROM Accounts WHERE accountId = '%d'",
@@ -27,7 +29,7 @@ public class TransactionQueryExecutor {
         int currentBalance = resultSetBalance.getInt("balance");
 
         try {
-            if (currentBalance + transaction.getAmount() >= 2_000_000_000) {
+            if (currentBalance + transaction.getAmount() >= MAX_VALUE_ON_ACCOUNT) {
                 throw new SQLException("Balance cannot exceed 2b");
             } else if (currentBalance + transaction.getAmount() < 0) {
                 throw new SQLException("Balance cannot be less 0");

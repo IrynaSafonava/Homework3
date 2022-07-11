@@ -9,8 +9,7 @@ import java.sql.SQLException;
 
 public class Runner {
     private static final String JDBC_DRIVER_PATH = "org.sqlite.JDBC";
-    private static final String DATABASE_URL =
-            "jdbc:sqlite:c:\\Users\\Iryna\\db\\myTest.db";
+    private static final String DATABASE_URL = "jdbc:sqlite:c:\\Users\\ISafonava\\db\\myTest.db";
 
     public static void main(String[] args) throws SQLException {
 
